@@ -1,7 +1,6 @@
 import dash
-#import dash_core_components as dcc
 from dash import dcc
-#import dash_html_components as html
+import dash_bootstrap_components as dbc
 from dash import html
 from dash.dependencies import Input, Output
 import requests
@@ -39,24 +38,49 @@ rplanet_selector = dcc.RangeSlider(
     value=[5, 50]
 )
 
-
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 app.layout = html.Div([
-    html.H1('DashGraph'),
-    html.Div('Select planet main semi-axis range'),
-    html.Div(rplanet_selector,
-             style={'width': '400px',
-                    'margin-bottom': '40px'}),
-    html.Div('Star Size'),
-    html.Div(star_size_selector,
-             style={'width': '400px',
-                    'margin-bottom': '40px'}),
-    html.Div('Planet Temperature ~ Distance from the Star'),
-    dcc.Graph(id='dist-temp-chart')
-],
+    dbc.Row(html.H1('DashGraph'),
+            style={'margin-bottom': 40}),
+    dbc.Row([
+        dbc.Col([
+            html.Div('Select planet main semi-axis range'),
+            html.Div(rplanet_selector)
+        ]),
+        dbc.Col([
+            html.Div('Star size'),
+            html.Div(star_size_selector)
+        ])
+    ],
+            style={'margin-bottom': 40}),
+
+    dbc.Row([
+        dbc.Col([
+            html.Div('Planet Temperature ~ Distance from the Star'),
+            dcc.Graph(id='dist-temp-chart')
+        ])
+    ],
+            style={'margin-bottom': 40}),
+    ],
     style={'margin-left': '80px',
            'margin-right': '80px'})
+
+# app.layout = html.Div([
+#     html.H1('DashGraph'),
+#     html.Div('Select planet main semi-axis range'),
+#     html.Div(rplanet_selector,
+#              style={'width': '400px',
+#                     'margin-bottom': '40px'}),
+#     html.Div('Star Size'),
+#     html.Div(star_size_selector,
+#              style={'width': '400px',
+#                     'margin-bottom': '40px'}),
+#     html.Div('Planet Temperature ~ Distance from the Star'),
+#     dcc.Graph(id='dist-temp-chart')
+# ],
+#     style={'margin-left': '80px',
+#            'margin-right': '80px'})
 
 
 @app.callback(
@@ -71,15 +95,6 @@ def update_dist_temp_chart(radius_range, star_size):
     fig = px.scatter(chart_data, x='TPLANET', y='A', color='ROW')
 
     return fig
-
-# @app.callback(
-#     Output(component_id='dist-temp', component_property='figure'),
-#     Input(component_id='range', component_property='value'),)
-# def update_dist_temp(radius):
-#     chart_data = df[(df['RPLANET'] > radius) &
-#                     (df['RPLANET'] < radius)]
-#     fig = px.scatter(chart_data)
-#     return fig
 
 
 if __name__ == '__main__':
