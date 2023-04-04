@@ -7,12 +7,12 @@ import requests
 import pandas as pd
 import plotly.express as px
 
-# Kepler Project API
+# Kepler API
 response = requests.get('http://asterank.com/api/kepler?query={}&limit=2000')
 df = pd.json_normalize(response.json())
 df = df[df['PER'] > 0]
 
-# create star size category:
+# star size category:
 bins = [0, 0.8, 1.2, 100]
 names = ['small', 'similar', 'bigger']
 df['StarSize'] = pd.cut(df['RSTAR'], bins, labels=names)
@@ -28,7 +28,7 @@ star_size_selector = dcc.Dropdown(
     multi=True
 )
 
-# RPLANET Radius planet
+# RPLANET radius
 rplanet_selector = dcc.RangeSlider(
     id='range-slider',
     min=min(df['RPLANET']),
@@ -38,8 +38,10 @@ rplanet_selector = dcc.RangeSlider(
     value=[5, 50]
 )
 
+# Cloud bootstrap theme
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+# Html layout
 app.layout = html.Div([
     dbc.Row(html.H1('DashGraph'),
             style={'margin-bottom': 40}),
@@ -82,7 +84,7 @@ app.layout = html.Div([
     style={'margin-left': '80px',
            'margin-right': '80px'})
 
-
+# def range planet
 @app.callback(
     Output(component_id='dist-temp-chart', component_property='figure'),
     [Input(component_id='range-slider', component_property='value'),
