@@ -66,21 +66,21 @@ app.layout = html.Div([
     style={'margin-left': '80px',
            'margin-right': '80px'})
 
-# app.layout = html.Div([
-#     html.H1('DashGraph'),
-#     html.Div('Select planet main semi-axis range'),
-#     html.Div(rplanet_selector,
-#              style={'width': '400px',
-#                     'margin-bottom': '40px'}),
-#     html.Div('Star Size'),
-#     html.Div(star_size_selector,
-#              style={'width': '400px',
-#                     'margin-bottom': '40px'}),
-#     html.Div('Planet Temperature ~ Distance from the Star'),
-#     dcc.Graph(id='dist-temp-chart')
-# ],
-#     style={'margin-left': '80px',
-#            'margin-right': '80px'})
+app.layout = html.Div([
+    html.H1('DashGraph'),
+    html.Div('Select planet main semi-axis range'),
+    html.Div(rplanet_selector,
+             style={'width': '400px',
+                    'margin-bottom': '40px'}),
+    html.Div('Star Size'),
+    html.Div(star_size_selector,
+             style={'width': '400px',
+                    'margin-bottom': '40px'}),
+    html.Div('Planet Temperature ~ Distance from the Star'),
+    dcc.Graph(id='dist-temp-chart')
+],
+    style={'margin-left': '80px',
+           'margin-right': '80px'})
 
 
 @app.callback(
